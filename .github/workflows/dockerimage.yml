@@ -14,7 +14,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build --file ./5.6-fpm/Dockerfile --tag albenikd/php:5.6-fpm ./5.6-fpm
-    - name: Push the Docker image
-      run: docker push albenikd/php:5.6-fpm
+    - name: Build/Publish PHP5.6-fpm
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: albenikd/php
+        dockerfile: '5.6-fpm/Dockerfile'
+        context: '5.6-fpm'
+        rags: '5.6-fpm'
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
