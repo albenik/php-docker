@@ -20,6 +20,6 @@ jobs:
         name: albenikd/php
         dockerfile: '5.6-fpm/Dockerfile'
         context: '5.6-fpm'
-        rags: '5.6-fpm'
+        tags: '5.6-fpm'
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
