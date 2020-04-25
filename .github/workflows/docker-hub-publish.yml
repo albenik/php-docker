@@ -1,26 +1,19 @@
 name: PHP 5.6-fpm Docker Image Publish
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
-    branches: [ master ]
+    types: [closed]
 
 jobs:
-
-  build:
-
+  publish_php56:
+    if: github.event.pull_request.merged == true
+    
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-      
-    - name: Test Docker build
-      if: github.event_name == 'pull_request'
-      run: docker build --tag php5.6-fpm:$GITHUB_SHA --file ./5.6-fpm/Dockerfile ./5.6-fpm
-      
-    - name: Publish PHP 5.6-fpm
-      if: github.event_name != 'pull_request'
+    
+    - name: Build & Publish to Docker Hub
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
         name: albenikd/php
