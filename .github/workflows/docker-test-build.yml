@@ -6,8 +6,8 @@ on:
 
 jobs:
   build_php56:
-    runs-on: ubuntu-latest    
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Test Docker build
-      run: docker build --tag php5.6-fpm:$GITHUB_SHA --file ./5.6-fpm/Dockerfile ./5.6-fpm
+      - uses: actions/checkout@v2
+      - name: Test Docker build
+        run: make test-build-php56-fpm
