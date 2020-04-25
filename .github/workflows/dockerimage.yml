@@ -16,3 +16,5 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the Docker image
       run: docker build --file ./5.6-fpm/Dockerfile --tag albenikd/php:5.6-fpm ./5.6-fpm
+    - name: Push the Docker image
+      run: docker push albenikd/php:5.6-fpm
