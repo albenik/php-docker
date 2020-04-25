@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: PHP 5.6-fpm Docker Image Publish
 
 on:
   push:
@@ -14,7 +14,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build/Publish PHP5.6-fpm
+      
+    - name: Test Docker build
+      if: github.event_name == 'pull_request'
+      run: docker build --tag php5.6-fpm:$GITHUB_SHA --file ./5.6-fpm/Dockerfile ./5.6-fpm
+      
+    - name: Publish PHP 5.6-fpm
+      if: github.event_name != 'pull_request'
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
         name: albenikd/php
