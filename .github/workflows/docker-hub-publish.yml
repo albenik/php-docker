@@ -1,4 +1,4 @@
-name: PHP 5.6-fpm Docker Image Publish
+name: Docker Hub Publish
 
 on:
   pull_request:
