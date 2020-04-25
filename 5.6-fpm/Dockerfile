@@ -2,9 +2,6 @@ FROM php:5.6-fpm
 
 RUN apt-get update \
    && apt-get install -y \
-   wget \
-   git \
-   g++ \
    libfreetype6-dev \
    libjpeg62-turbo-dev \
    libpng-dev \
@@ -15,8 +12,13 @@ RUN apt-get update \
    librecode-dev \
    libxml2-dev \
    libxslt-dev \
+   libzip-dev \
+   git \
+   g++ \
+   wget \
+   unzip \
    && apt-get autoremove -y \
-   && rm -rf /var/lib/{apt,dpkg,cache,log}/
+   && rm -rf /var/lib/{apt,dpkg,cache,log}
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
    && docker-php-ext-install opcache \
@@ -46,7 +48,8 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
    && docker-php-ext-install sysvshm \
    && docker-php-ext-install wddx \
    && docker-php-ext-install xmlrpc \
-   && docker-php-ext-install xsl
+   && docker-php-ext-install xsl \
+   && docker-php-ext-install zip
 
-COPY conf.d /usr/local/etc/php/conf.d/
+COPY conf.d /usr/local/etc/php/conf.d
 
