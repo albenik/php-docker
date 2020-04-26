@@ -20,8 +20,7 @@ RUN apt-get update \
    && apt-get autoremove -y \
    && rm -rf /var/lib/{apt,dpkg,cache,log}
 
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
-   && docker-php-ext-install opcache \
+RUN docker-php-ext-install opcache \
    && docker-php-ext-configure gd \
    --enable-gd-native-ttf \
    --with-jpeg-dir=/usr/lib \
@@ -51,5 +50,8 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
    && docker-php-ext-install xsl \
    && docker-php-ext-install zip
 
-COPY conf.d /usr/local/etc/php/conf.d
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
+   && sed -i '1s;^;zend_extension=/usr/local/lib/php/extensions/ioncube_loader_lin_5.6.so\n;' "$PHP_INI_DIR/php.ini"
 
+COPY extensions/ioncube_loader_lin_5.6.so /usr/local/lib/php/extensions/ioncube_loader_lin_5.6.so
+COPY custom.ini /usr/local/etc/php/conf.d/zzz.ini
