@@ -52,8 +52,25 @@ RUN docker-php-ext-install opcache \
    && docker-php-ext-install xsl \
    && docker-php-ext-install zip
 
+RUN BEFORE_PWD=$(pwd) \
+   && mkdir -p /opt/xdebug \
+   && cd /opt/xdebug \
+   && curl -k -L https://github.com/xdebug/xdebug/archive/XDEBUG_2_5_5.tar.gz | tar zx \
+   && cd xdebug-XDEBUG_2_5_5 \
+   && phpize \
+   && ./configure --enable-xdebug \
+   && make clean \
+   && sed -i 's/-O2/-O0/g' Makefile \
+   && make \
+   && make install \
+   && cd "${BEFORE_PWD}" \
+   && rm -r /opt/xdebug
+
 COPY extensions/ioncube_loader_lin_5.6.so /usr/local/lib/php/extensions/no-debug-non-zts-20131226/ioncube_loader_lin_5.6.so
-RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \ 
+RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" \ 
    && echo "\nopcache.enable = On" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+   && echo "zend_extension = xdebug.so" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+   && echo "xdebug.remote_enable = On" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+   && echo "xdebug.idekey = PHPSTORM" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
    && sed -i '1s;^;zend_extension = ioncube_loader_lin_5.6.so\n;' "$PHP_INI_DIR/php.ini" \
    && sed -i 's;^memory_limit.*$;memory_limit = 512M\n;' "$PHP_INI_DIR/php.ini"
