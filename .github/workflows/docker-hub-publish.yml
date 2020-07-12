@@ -38,3 +38,20 @@ jobs:
           tags: "5.6-fpm-dev"
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+
+  publish_php74_dev:
+    if: github.event.pull_request.merged == true
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build & Publish to Docker Hub
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: albenikd/php
+          dockerfile: "7.4-dev/Dockerfile"
+          context: "7.4-dev"
+          tags: "5.7-dev"
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
