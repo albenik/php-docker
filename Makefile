@@ -25,7 +25,7 @@ build-php56-fpm-dev:
 test-build-php56-fpm-dev: build-php56-fpm-dev
 	docker image rm $(PHP56_FPM_DEV_TAG)
 
-# PHP-7.4-FPM + NGINX for local development
+# PHP-7.4-FPM + NGINX + SSH for local development
 .PHONY: php74-dev-build php74-dev-testbuild php74-dev-clean
 
 PHP74_DEV_DIR := ./7.4-dev
