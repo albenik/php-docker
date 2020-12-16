@@ -1,5 +1,5 @@
 # php-docker
 
-![Docker Hub Publish](https://github.com/albenik/php-docker/workflows/Docker%20Hub%20Publish/badge.svg)
+![Publish to Docker Hub](https://github.com/albenik/php-docker/workflows/Publish%20to%20Docker%20Hub/badge.svg)
 
 Custom PHP docker image
